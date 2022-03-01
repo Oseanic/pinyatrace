@@ -16,7 +16,7 @@ class ScannerController extends Controller
         $latest = TravelHistory::where('user_id','=',Auth::user()->id)->latest()->first();
 
         if( Auth::user()->profile == null ){
-            return redirect()->route('profile.create')->with('message', 'Kindly create your personal information');
+            return redirect()->route('profile.create')->with('danger', 'Profile has not been created yet');
         }
 
         return view('pages.resident.qr-code.scanner', compact('latest'));

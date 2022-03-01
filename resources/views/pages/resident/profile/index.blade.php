@@ -20,13 +20,24 @@
         </div>
       </div>
       <div class="row d-flex justify-content-center p-2 mb-2">
-        
       </div>
       <div class="card-body pt-0">
         <form action="{{ route('profile.update', Auth::user()->id) }}" id="updateForm" method="POST">
           @method('PUT')
           @csrf
           <h6 class="heading-small text-muted mb-4 text-center">Personal information</h6>
+
+          <div class="row d-flex justify-content-center">
+              @if(session('danger'))
+                <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+                    {{ session('danger') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>  
+              @endif
+          </div>
+
           <div class="form-row">
             <div class="col-md-4 mb-3">
               <label for="first_name">First name</label>
@@ -232,6 +243,12 @@ $(function(){
       
     document.getElementById('age').value = age;
     }
+</script>
+
+<script>
+$(".alert").delay(4000).fadeOut(200, function() {
+          $(this).alert('close');
+        });
 </script>
 
   <!-- Core -->

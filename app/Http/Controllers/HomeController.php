@@ -47,9 +47,9 @@ class HomeController extends Controller
         $mortality = $cases->where('status', 'Died')->count();
         $total = $cases->count();
         $user = Profile::where('user_id', '=', Auth::user()->id)->first();
+        
         if($user === null){
-
-            return redirect()->route('profile.create')->with('message', 'Kindly create your personal information', compact(['cases', 'active', 'recovered', 'mortality', 'total', 'top', 'visitortotal', 'latest']));
+            return redirect()->route('profile.create')->with('message', 'Profile has not been created yet', compact(['cases', 'active', 'recovered', 'mortality', 'total', 'top', 'visitortotal', 'latest']));
             
         }
         return view('pages.resident.dashboard.index', compact(['cases', 'active', 'recovered', 'mortality', 'total', 'top', 'visitortotal', 'latest']));

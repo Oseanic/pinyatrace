@@ -28,7 +28,7 @@
       <div class="c-sidebar-nav-icon">
         <i class="cil-walk"></i>
       </div>
-      Travel History
+      Scan History
     </a>
   </li>
   <li class="c-sidebar-nav-item">

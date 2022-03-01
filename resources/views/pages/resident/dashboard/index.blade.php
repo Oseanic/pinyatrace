@@ -36,7 +36,7 @@ div.card{
           <div class="text-muted text-right mb-4">
             <i class="cil-walk" style="font-size: 3rem"></i>
           </div>
-          <div class="text-value-lg">Travel History</div><medium class="text-muted text-uppercase font-weight-bold">View</medium>
+          <div class="text-value-lg">Scan History</div><medium class="text-muted text-uppercase font-weight-bold">View</medium>
         </div>
       </div></a>
     </div>

@@ -34,7 +34,7 @@ class ProfileController extends Controller
         $resident = User::where('id','=',Auth::user()->id)->with('profile', 'contact')->first();
 
         if(Auth::user()->profile != null){
-            return redirect()->route('profile', compact(['resident', 'barangays']));
+            return redirect()->route('profile', compact(['resident', 'barangays']))->with('danger', 'Profile already exists');
         }
 
         else{

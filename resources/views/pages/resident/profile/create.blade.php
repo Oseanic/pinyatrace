@@ -7,6 +7,7 @@
 
 @section('main')
 
+
 <div class="container-fluid mt-3">
   <div class="row d-flex justify-content-center">
     @if (session('message'))
@@ -16,6 +17,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+    @elseif(session('danger'))
+      <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+          {{ session('danger') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>  
     @endif
   </div>
   <div class="row">
@@ -200,6 +208,12 @@ document.getElementById('role').onchange = function () {
     document.getElementById('age').value = age;
     }
     
+</script>
+
+<script>
+$(".alert").delay(4000).fadeOut(200, function() {
+          $(this).alert('close');
+        });
 </script>
 
   <!-- Core -->
