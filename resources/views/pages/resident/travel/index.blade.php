@@ -27,7 +27,7 @@
                     </li>
                 @empty
                     <div class="row d-flex justify-content-center">
-                        <p>No recent travel history</p>
+                        <p>No recent scan history</p>
                     </div>
                 @endforelse
             </ul>  

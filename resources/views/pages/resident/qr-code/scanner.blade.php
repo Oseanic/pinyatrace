@@ -36,12 +36,12 @@
               >Health Declaration</button>
             @else
               @if (!empty($latest))
-                <p>Recent travel history</p>
+                <p>Recent scan history</p>
                 <h3>{{ $latest->establishment_name }}</h3>
                 <h5>{{ $latest->establishment_address }}</h5>
                 <p style="font-size: .8rem">{{ $latest->updated_at->diffForHumans() }}</p>
               @else
-                <p>No recent travel history</p>
+                <p>No recent scan</p>
               @endif
             @endif
           </div>

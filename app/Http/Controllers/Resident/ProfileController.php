@@ -19,7 +19,7 @@ class ProfileController extends Controller
         $barangays = Barangay::all();
        
         if(Auth::user()->profile == null){
-        return redirect()->route('profile.create')->with('message', 'Kindly create your personal information');
+        return redirect()->route('profile.create')->with('danger', 'Kindly create your personal information');
         }
 
         else{
