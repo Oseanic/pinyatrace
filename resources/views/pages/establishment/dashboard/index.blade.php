@@ -66,7 +66,16 @@ new Chart("myChart", {
     title: {
       display: true,
       text: "Visitors"
-    }
+    },
+    
+    scales: {
+      yAxes: [{
+        ticks: {
+          stepSize: 1,
+          beginAtZero: true,
+        },
+      }],
+    },
   }
 });
 </script>

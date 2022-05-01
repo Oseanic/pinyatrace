@@ -51,7 +51,15 @@ class QrController extends Controller
             'establishment_name' => $establishment->information->company_name,
             'establishment_address' => $establishment->information->company_address
         ]);
-        return redirect()->route('has.scanned', $id)->with('health', 'Kindly answer this health declaration form')->with(compact(['establishment', 'dateTime']));
+
+        if($establishment->information->health_dec_status == "Enabled"){
+            return redirect()->route('has.scanned', $id)->with('health', 'Kindly answer this health declaration form')->with(compact(['establishment', 'dateTime']));
+        }
+
+        else{
+            return redirect()->route('scanner')->with('enter', 'Thank you for scanning!');
+        }
+        
         //return view('pages.resident.qr-code.scanner', )->with('show');
         //}
     }

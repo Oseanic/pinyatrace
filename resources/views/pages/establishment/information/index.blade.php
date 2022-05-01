@@ -54,6 +54,24 @@
               <div class="h5 font-weight-300">
               {{ $company->representative->number.' '.'|'.' '.$company->representative->email }}
               </div>
+
+              <div class="border"></div>
+            <form action="{{ route('informationhdc.update', Auth::user()->id) }}" method="POST">
+              @method('PUT')
+              @csrf  
+              <h5 class="h3 bg-success text-white mt-3">
+                  Health Declaration Status
+              </h5>
+
+              <h5 class="h3 {{ $company->information->health_dec_status === 'Disabled' ? 'text-danger' : 'text-success'}}">
+              {{ $company->information->health_dec_status }}
+              </h5>
+
+              <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-primary" value="Change">
+              </div>  
+            </form>
+
             @endif
           </div>
         </div>

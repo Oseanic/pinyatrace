@@ -123,4 +123,30 @@ class InformationController extends Controller
         }
     }
 
+    public function updatestatus($id)
+    {
+        $establishment = Information::find($id);
+
+            if($establishment->health_dec_status == "Enabled"){
+                
+                Information::where('est_id','=',$id)->update([
+                    'est_id' => Auth::guard('establishment')->user()->id,
+                    'health_dec_status' => "Disabled"
+                ]);
+
+            return redirect()->route('information')->with('update', 'Company health declaration has been disabled');    
+            }
+
+            else
+            {
+                Information::where('est_id','=',$id)->update([
+                    'est_id' => Auth::guard('establishment')->user()->id,
+                    'health_dec_status' => "Enabled"
+                ]);
+
+                return redirect()->route('information')->with('update', 'Company health declaration has been enabled');  
+            }
+
+            
+    }
 }

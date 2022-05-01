@@ -18,7 +18,7 @@ class CreateTravelHistoriesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('res_name');
-            $table->date('date');
+            $table->text('date');
             $table->string('in', 0);
             $table->time('out', 0)->nullable();
             $table->string('role');

@@ -132,6 +132,7 @@ Route::prefix('establishment')->group(function(){
         Route::post('/store', 'Establishment\InformationController@store')->name('information.store');
         Route::put('/update/{id}', 'Establishment\InformationController@update')->name('information.update');
         Route::put('/updatepass/{id}', 'Establishment\InformationController@updatepass')->name('informationpass.update');
+        Route::put('/updatestatus/{id}', 'Establishment\InformationController@updatestatus')->name('informationhdc.update');
 
     });
 });

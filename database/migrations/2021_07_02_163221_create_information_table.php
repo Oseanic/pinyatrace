@@ -22,6 +22,7 @@ class CreateInformationTable extends Migration
             $table->string('cp_number');
             $table->string('tel_number');
             $table->mediumText('company_address');
+            $table->text('health_dec_status')->nullable();
             $table->timestamps();
         });
     }
