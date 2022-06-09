@@ -29,7 +29,7 @@ Route::prefix('resident')->group(function(){
     Route::get('/login', 'Auth\LoginController@showLogIn')->name('resident.showLogin');
     Route::get('/register', 'Auth\RegisterController@showRegister')->name('resident.register');
     //Route::get('/reset', 'Auth\ResetPasswordController' );
-    Route::post('/logout', 'Auth\LoginController@residentLogout')->name('resident.logout');
+    Route::post('/logout', 'Auth\LoginController@logout');
 
     Route::middleware('auth')->group(function(){
         //DASHBOARD
@@ -125,6 +125,15 @@ Route::prefix('establishment')->group(function(){
         Route::get('/visitors/viewnotallowed', 'Establishment\Visitors@searchnotallowed')->name('visitors.searchnotallowed');
         Route::get('/detail/{id}', 'Establishment\Visitors@detail');
         Route::get('visitors/detail/{id}', 'Establishment\Visitors@detail');
+
+        //Attendance
+        Route::get('/attendance', 'Establishment\AttendanceController@index')->name('attendance');
+        Route::get('/detailA/{id}', 'Establishment\AttendanceController@detail');
+        Route::get('attendance/detailA/{id}', 'Establishment\AttendanceController@detail');
+
+        Route::get('/attendance/viewnow', 'Establishment\AttendanceController@searchtoday')->name('attendance.searchtoday');
+        Route::get('/attendance/viewmonthnow', 'Establishment\AttendanceController@searchtodaymonth')->name('attendance.searchtodaymonth');
+        Route::get('/attendance/viewweeknow', 'Establishment\AttendanceController@searchtodayweek')->name('attendance.searchtodayweek');
 
         //INFORMATION
         Route::get('/information', 'Establishment\InformationController@index')->name('information');

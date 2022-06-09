@@ -141,7 +141,7 @@ class Visitors extends Controller
         $visitors = TravelHistory::where('establishment_id','=',Auth::guard('establishment')->user()->id)->where('date', $date)->orderBy('created_at','DESC')->paginate(1000);
         $show = TravelHistory::whereBetween('date', $date)->get();
 
-        //dd($date);
+        //dd($visitors);
         return view('pages.establishment.visitors.index', compact('show', 'visitors', 'date', 'dt'));
     }
 

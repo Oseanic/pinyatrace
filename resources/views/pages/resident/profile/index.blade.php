@@ -6,6 +6,12 @@
 @endsection
 
 @section('main')
+
+<style>
+  .image-upload>input {
+  display: none;
+}
+</style>
 <div class="container-fluid mt-3">
   @component('components.alert')@endcomponent
   <div class="row">
@@ -37,6 +43,14 @@
                   </div>  
               @endif
           </div>
+          
+            <div class="image-upload row d-flex justify-content-center p-2 mb-2">
+              <label for="file-input">
+                <img id="blah" src="#" class="rounded-circle" height="200" width="200"> 
+              </label>
+
+              <input id="file-input" type='file'/>
+            </div>
 
           <div class="form-row">
             <div class="col-md-4 mb-3">
@@ -215,8 +229,18 @@ document.getElementById('role').onchange = function () {
       $("#id_number").attr('readonly', 'readonly');
     }
 
-    else {
-      document.getElementById("id_number").required = true;
+    if(this.value == 'Student') {
+      document.getElementById("id_number").pattern = "[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}";
+      $("#id_number").removeAttr('readonly');
+    }
+
+    if(this.value == 'Professor') {
+      document.getElementById("id_number").pattern = "[0-9]{5}";
+      $("#id_number").removeAttr('readonly');
+    }
+
+    if(this.value == 'Faculty & Staff') {
+      document.getElementById("id_number").pattern = "[0-9]{5}";
       $("#id_number").removeAttr('readonly');
     }
 }
@@ -226,9 +250,22 @@ $(function(){
   if ($('#role').val() == 'Visitor') {
     $("#id_number").attr('readonly', 'readonly');
     $('#id_number').prop('value', "N/A");
-  } else {
+  } 
+  
+  if ($('#role').val() == 'Student') {
     $("#id_number").removeAttr('readonly');
-  }
+    $('#id_number').prop('pattern', "[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}");
+  } 
+
+  if ($('#role').val() == 'Professor') {
+    $("#id_number").removeAttr('readonly');
+    $('#id_number').prop('pattern', "[0-9]{5}");
+  } 
+
+  if ($('#role').val() == 'Faculty & Staff') {
+    $("#id_number").removeAttr('readonly');
+    $('#id_number').prop('value', "[0-9]{5}");
+  } 
 });
 </script>
 

@@ -45,9 +45,9 @@ class LoginController extends Controller
     }
     
 
-    public function residentLogout()
+    public function logout()
     {
-        Auth::guard('resident')->logout();
+        Auth::logout();
         return redirect('/resident');
     }
 }

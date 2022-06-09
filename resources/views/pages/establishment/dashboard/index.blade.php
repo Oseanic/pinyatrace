@@ -71,7 +71,7 @@ new Chart("myChart", {
     scales: {
       yAxes: [{
         ticks: {
-          stepSize: 1,
+          stepSize: 5,
           beginAtZero: true,
         },
       }],

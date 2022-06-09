@@ -106,7 +106,7 @@
 
             <div class="col-md-6 mb-3">
               <label for="id_number">ID Number</label>
-              <input type="text" class="form-control" id="id_number" name="id_number" pattern="[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}" title="Incorrect Format of ID Number">
+              <input type="text" class="form-control" id="id_number" name="id_number" pattern="[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}" title="Incorrect Format of ID Number" readonly>
             </div>
           </div>
 
@@ -187,10 +187,21 @@ document.getElementById('role').onchange = function () {
       $("#id_number").attr('readonly', 'readonly');
     }
 
-    else {
-      document.getElementById("id_number").required = true;
+    if(this.value == 'Student') {
+      document.getElementById("id_number").pattern = "[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}";
       $("#id_number").removeAttr('readonly');
     }
+
+    if(this.value == 'Professor') {
+      document.getElementById("id_number").pattern = "[0-9]{5}";
+      $("#id_number").removeAttr('readonly');
+    }
+
+    if(this.value == 'Faculty & Staff') {
+      document.getElementById("id_number").pattern = "[0-9]{5}";
+      $("#id_number").removeAttr('readonly');
+    }
+
 }
 
 </script>

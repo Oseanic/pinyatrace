@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Establishment;
 use Illuminate\Http\Request;
 use App\Models\Establishment;
 use App\Models\TravelHistory;
+use App\Models\Attendance;
 use App\Models\Contact;
 use Illuminate\Support\Carbon;
 use App\Models\HealthDeclaration;
@@ -24,16 +25,13 @@ class QrController extends Controller
         $establishment = Establishment::where('id','=',$id)->with('information')->first();
         $dateTime = Carbon::now()->isoFormat('dddd D, YYYY - hh:mm a');
         $travel = TravelHistory::where('out','=',null)->orWhere('establishment_id','=',$id)->orWhere('user_id','=',Auth::user()->id)->latest()->first();
-
-        //if($travel->out == null){
-        //$travel->update([
-            //'out' => Carbon::now()->isoFormat('hh:mm a')
-        //]);
-
-        //return redirect()->route('scanner')->with('out', sprintf('Thank you for visiting %s', $travel->establishment_name));
-        //}
         
-        //else{
+        $date = Carbon::now();
+        $student = Attendance::where('user_id', '=', Auth::user()->id)->latest('date');
+        $verify = Auth::user()->profile->role;
+
+        //dd($student->date);
+
         TravelHistory::create([
             'user_id' => Auth::user()->id,
             'res_name' => Auth::user()->profile->getFullname(),
@@ -51,6 +49,46 @@ class QrController extends Controller
             'establishment_name' => $establishment->information->company_name,
             'establishment_address' => $establishment->information->company_address
         ]);
+
+        
+        if($verify != "Visitor"){
+            if($student === null){
+                Attendance::create([
+                    'user_id' => Auth::user()->id,
+                    'res_name' => Auth::user()->profile->getFullname(),
+                    'date' =>  Carbon::now()->format('Y-m-d'),
+                    'in'   => Carbon::now()->isoFormat('hh:mm a'),
+                    'role' => Auth::user()->profile->role,
+                    'email' => Auth::user()->email,
+                    'id_number' => Auth::user()->profile->id_number,
+                    'cp_number' => Auth::user()->profile->cp_number,
+                    'tel_number' => Auth::user()->profile->tel_number,
+                    'emergency_contact' => Auth::user()->contact->emergency_contact,
+                    'ec_cp_number' => Auth::user()->contact->ec_cp_number,
+                    'address' => Auth::user()->profile->getFullAddress(),
+                    'image' => "/img/Logo.png",
+                ]);
+            }
+
+            elseif($student != null){
+                    Attendance::where('user_id','=', Auth::user()->id)->update([
+                        'user_id' => Auth::user()->id,
+                        'res_name' => Auth::user()->profile->getFullname(),
+                        'date' =>  Carbon::now()->format('Y-m-d'),
+                        'in'   => Carbon::now()->isoFormat('hh:mm a'),
+                        'role' => Auth::user()->profile->role,
+                        'email' => Auth::user()->email,
+                        'id_number' => Auth::user()->profile->id_number,
+                        'cp_number' => Auth::user()->profile->cp_number,
+                        'tel_number' => Auth::user()->profile->tel_number,
+                        'emergency_contact' => Auth::user()->contact->emergency_contact,
+                        'ec_cp_number' => Auth::user()->contact->ec_cp_number,
+                        'address' => Auth::user()->profile->getFullAddress(),
+                        'image' => "/img/Logo.png",
+                    ]);
+            }                        
+        }
+       
 
         if($establishment->information->health_dec_status == "Enabled"){
             return redirect()->route('has.scanned', $id)->with('health', 'Kindly answer this health declaration form')->with(compact(['establishment', 'dateTime']));

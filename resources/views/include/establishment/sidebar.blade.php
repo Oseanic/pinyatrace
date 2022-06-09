@@ -23,6 +23,16 @@
         Visitors
       </a>
     </li>
+
+    <li class="c-sidebar-nav-item" style="font-size: .8rem">
+      <a class="c-sidebar-nav-link" href="{{ route('attendance') }}">
+        <div class="c-sidebar-nav-icon">
+          <i class="cil-user"></i>
+        </div>
+        Attendance
+      </a>
+    </li>
+
     <li class="c-sidebar-nav-item" style="font-size: .8rem">
       <a class="c-sidebar-nav-link" href="{{ route('information') }}">
         <div class="c-sidebar-nav-icon">

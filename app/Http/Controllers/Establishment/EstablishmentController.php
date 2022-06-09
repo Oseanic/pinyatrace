@@ -31,8 +31,8 @@ class EstablishmentController extends Controller
         $notallowed = TravelHistory::where('in', '=', 'Not allowed')->get()->count();
 
 
-
-        //dd($notallowed);
+        
+        //dd($visitormonth);
         //dd($now);
        
         $top = CovidCase::select('address')->where('status','=','Positive')

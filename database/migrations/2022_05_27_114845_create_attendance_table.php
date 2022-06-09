@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTravelHistoriesTable extends Migration
+class CreateAttendanceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateTravelHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('travel_histories', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('res_name');
             $table->date('date');
             $table->string('in', 0);
-            $table->string('out', 0)->nullable();
-            $table->string('role');
+            $table->string('role')->nullable();
             $table->string('id_number');
             $table->string('cp_number');
             $table->string('address');
@@ -29,10 +28,7 @@ class CreateTravelHistoriesTable extends Migration
             $table->string('emergency_contact');
             $table->string('ec_cp_number');
             $table->string('email');
-            $table->unsignedBigInteger('establishment_id');
-            $table->foreign('establishment_id')->references('id')->on('establishments');
-            $table->string('establishment_name');
-            $table->string('establishment_address');
+            $table->string('image');
             $table->timestamps();
         });
     }
@@ -44,6 +40,6 @@ class CreateTravelHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('travel_histories');
+        Schema::dropIfExists('attendance');
     }
 }

@@ -350,7 +350,6 @@ div.alert{
       </div>
       <div class="modal-body">
           <p>Choose Present Filter:</p>
-
               <div class="d-flex justify-content-center">
                 <a href="{{ route('visitors.searchtoday') }}" class="btn btn-primary btn mb-3" role="button">{{ Carbon\Carbon::now()->format('M, d Y') }}</a>
                 <a href="{{ route('visitors.searchbymonth') }}" class="btn btn-info btn mb-3" role="button">{{ Carbon\Carbon::now()->format('F, Y') }}</a>

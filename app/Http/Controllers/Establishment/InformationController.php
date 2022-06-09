@@ -45,7 +45,8 @@ class InformationController extends Controller
                 'acronym' => $acronym.Auth::guard('establishment')->user()->id,
                 'cp_number' => $request->cp_number,
                 'tel_number' => $request->tel_number,
-                'company_address' => $request->company_address
+                'company_address' => $request->company_address,
+                'health_dec_status' => "Not Activated"
             ]);
 
             Representative::create([
@@ -135,6 +136,16 @@ class InformationController extends Controller
                 ]);
 
             return redirect()->route('information')->with('update', 'Company health declaration has been disabled');    
+            }
+
+            elseif($establishment->health_dec_status == "Not Activated"){
+                
+                Information::where('est_id','=',$id)->update([
+                    'est_id' => Auth::guard('establishment')->user()->id,
+                    'health_dec_status' => "Enabled"
+                ]);
+
+            return redirect()->route('information')->with('update', 'Company health declaration has been enabled');    
             }
 
             else
