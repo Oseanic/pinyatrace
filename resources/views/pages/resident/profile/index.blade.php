@@ -44,14 +44,6 @@
               @endif
           </div>
           
-            <div class="image-upload row d-flex justify-content-center p-2 mb-2">
-              <label for="file-input">
-                <img id="blah" src="#" class="rounded-circle" height="200" width="200"> 
-              </label>
-
-              <input id="file-input" type='file'/>
-            </div>
-
           <div class="form-row">
             <div class="col-md-4 mb-3">
               <label for="first_name">First name</label>
@@ -94,7 +86,7 @@
                 <option value="Visitor" {{ $resident->profile->role === 'Visitor' ? 'selected' : ''}}>Visitor</option>
                 <option value="Student" {{ $resident->profile->role === 'Student' ? 'selected' : ''}}>Student</option>
                 <option value="Professor" {{ $resident->profile->role === 'Professor' ? 'selected' : ''}}>Professor</option>
-                <option value="Faculty & Staff" {{ $resident->profile->role === 'Faculty & Staff' ? 'selected' : ''}}>Faculty & Staff</option>
+                <option value="Admin & Staff" {{ $resident->profile->role === 'Admin & Staff' ? 'selected' : ''}}>Admin & Staff</option>
               </select>
             </div>
 
@@ -102,6 +94,19 @@
               <label for="id_number">ID Number</label>
               <input type="text" class="form-control" id="id_number" name="id_number" value="{{ $resident->profile->id_number }}" pattern="[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}" title="Incorrect Format of ID Number" required>
             </div>
+          </div>
+
+          <h6 class="heading-small text-muted mb-4 text-center">Course and Section</h6>
+          <div class="form-row d-flex justify-content-center">
+            <div class="col-md-4 mb-3">
+                <label for="role">Course (Acronym only)</label>
+                <input type="text" class="form-control" id="course" name="course" pattern="[A-Z]{4}" value="{{ $resident->profile->course }}" title="Incorrect Format of Course" required>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="role">Section</label>
+                <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" value="{{ $resident->profile->section }}" title="Incorrect Format of Section" required>
+              </div>
           </div>
 
           <h6 class="heading-small text-muted mb-4 text-center">Contact information</h6>
@@ -224,24 +229,42 @@ confirm_password.onkeyup = validatePassword;
 
 <script>
 document.getElementById('role').onchange = function () {
-    if(this.value == 'Visitor') {
+  if(this.value == 'Visitor') {
       document.getElementById("id_number").value = "N/A";
+      document.getElementById("course").value = "N/A";
+      document.getElementById("section").value = "N/A";
       $("#id_number").attr('readonly', 'readonly');
+      $("#course").attr('readonly', 'readonly');
+      $("#section").attr('readonly', 'readonly');
     }
 
     if(this.value == 'Student') {
       document.getElementById("id_number").pattern = "[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}";
+      document.getElementById("course").pattern = "[A-Z]{4}";
+      document.getElementById("section").pattern = "[1-4]{1}-[1-4]{1}";
       $("#id_number").removeAttr('readonly');
+      $("#course").removeAttr('readonly');
+      $("#section").removeAttr('readonly');
     }
 
     if(this.value == 'Professor') {
       document.getElementById("id_number").pattern = "[0-9]{5}";
+      document.getElementById("course").value = "N/A";
+      document.getElementById("section").value = "N/A";
       $("#id_number").removeAttr('readonly');
+
+      $("#course").attr('readonly', 'readonly');
+      $("#section").attr('readonly', 'readonly');
     }
 
-    if(this.value == 'Faculty & Staff') {
+    if(this.value == 'Admin & Staff') {
       document.getElementById("id_number").pattern = "[0-9]{5}";
+      document.getElementById("course").value = "N/A";
+      document.getElementById("section").value = "N/A";
       $("#id_number").removeAttr('readonly');
+
+      $("#course").attr('readonly', 'readonly');
+      $("#section").attr('readonly', 'readonly');
     }
 }
 
@@ -249,22 +272,41 @@ document.getElementById('role').onchange = function () {
 $(function(){
   if ($('#role').val() == 'Visitor') {
     $("#id_number").attr('readonly', 'readonly');
+    $("#course").attr('readonly', 'readonly');
+    $("#section").attr('readonly', 'readonly');
     $('#id_number').prop('value', "N/A");
+    $('#course').prop('value', "N/A");
+    $('#section').prop('value', "N/A");
   } 
   
   if ($('#role').val() == 'Student') {
     $("#id_number").removeAttr('readonly');
+    $("#course").removeAttr('readonly');
+    $("#section").removeAttr('readonly');
+    
     $('#id_number').prop('pattern', "[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}");
+    $('#course').prop('pattern', "[A-Z]{4}");
+    $('#section').prop('pattern', "[1-4]{1}-[1-4]{1}");
   } 
 
   if ($('#role').val() == 'Professor') {
     $("#id_number").removeAttr('readonly');
+    $("#course").attr('readonly', 'readonly');
+    $("#section").attr('readonly', 'readonly');
+
     $('#id_number').prop('pattern', "[0-9]{5}");
+    $('#course').prop('value', "N/A");
+    $('#section').prop('value', "N/A");
   } 
 
-  if ($('#role').val() == 'Faculty & Staff') {
+  if ($('#role').val() == 'Admin & Staff') {
     $("#id_number").removeAttr('readonly');
-    $('#id_number').prop('value', "[0-9]{5}");
+    $("#course").attr('readonly', 'readonly');
+    $("#section").attr('readonly', 'readonly');
+
+    $('#id_number').prop('pattern', "[0-9]{5}");
+    $('#course').prop('value', "N/A");
+    $('#section').prop('value', "N/A");
   } 
 });
 </script>

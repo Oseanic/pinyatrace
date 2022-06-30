@@ -20,6 +20,7 @@ class CreateAttendanceTable extends Migration
             $table->string('res_name');
             $table->date('date');
             $table->string('in', 0);
+            $table->string('out', 0)->nullable();
             $table->string('role')->nullable();
             $table->string('id_number');
             $table->string('cp_number');
@@ -29,6 +30,7 @@ class CreateAttendanceTable extends Migration
             $table->string('ec_cp_number');
             $table->string('email');
             $table->string('image');
+            $table->string('section');
             $table->timestamps();
         });
     }

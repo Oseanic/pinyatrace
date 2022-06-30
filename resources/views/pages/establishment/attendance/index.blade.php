@@ -29,7 +29,7 @@
         </div>
         @endif    
         <div class="d-flex justify-content-center">
-          <h1 class="mb-4 text-primary">PUP Students/Teacher - </h1><h1 class="mb-4 ml-2 text-black">{{ $dt }}</h1>
+          <h1 class="mb-4 text-primary">Attendances - </h1><h1 class="mb-4 ml-2 text-black">{{ $dt }}</h1>
         </div>
         <div class="d-flex justify-content-center">
         <button type="button" class="btn btn-primary btn mb-3" data-toggle="modal" data-target="#presentModal">Present</button>
@@ -48,27 +48,34 @@
             <thead class="thead-light">
               
               <tr class="border" style="color: black">
-                <th>Image</th>
                 <th>Name</th>
                 <th>Role</th>
                 <th>ID Number</th>
+                <th>Section</th>
                 <th>Date</th>
                 <th>In</th>
+                <th>Out</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody id="table">
             @forelse ($attendances as $attendance)
-                <tr> 
-                    <td><img src="{{ $attendance->image }}" alt="none" style="width:60px;height:60px;"></td>
+                <tr class="{{ $attendance->out === null ? 'bg-gradient-success text-white' : 'border'}}"> 
                     <td>{{ $attendance->res_name }}</td>
                     <td>{{ $attendance->role }}</td>
                     <td>{{ $attendance->id_number }}</td>
+                    @if($attendance->section != "N/A N/A")
+                    <td>{{  $attendance->section }}</td>
+                    @else
+                    <td>N/A</td>
+                    @endif
                     <td>{{ Carbon\Carbon::parse($attendance->date)->format('M, d Y') }}</td>
                     <td>{{ $attendance->in }}</td>
+                    <td>{{ $attendance->out === null ? 'Still inside' : $attendance->out }}</td>
                     <td><button class="btn-sm btn-primary detail-btn" data-toggle="modal" data-target="#exampleModal" data-id="{{ $attendance->id }}">View</button>
-                   
-                  </td>
+                        <!-- @if($attendance->out == null)
+                        <a href="#" method="PUT" class="btn-sm btn-danger btn" role="button" aria-pressed="true">Kick</a>
+                        @endif</td> -->
                 </tr>
                 @empty
                 <tr>
@@ -94,15 +101,10 @@
         </button>
       </div>
 
-      <div class="row d-flex justify-content-center p-2">
-        <a href="#">
-          <img id="image" src="" class="rounded-circle" height="200" width="200">
-        </a>
-      </div>
       <div class="modal-body">
            <strong> <h2 class="text-primary d-flex justify-content-center">Full Name: </h2></strong><h1 class="d-flex justify-content-center" id="name"></h1>
       </div>
-
+      
       <div class="border mt-3 mb-3"></div>
         <div class="row info">
           <div class="col d-flex justify-content-center">
@@ -280,6 +282,7 @@
                 $('#ec_cp_number').html(data.ec_cp_number)
                 $('#address').html(data.address);
                 $('#email').html(data.email);
+                $('#section').html(data.section);
                 $('#image').attr('src', data.image);
               }
             })

@@ -78,13 +78,13 @@ div.alert{
                 <th>Role</th>
                 <th>ID Number</th>
                 <th>Date</th>
-                <th>In</th>
+                <th>Scan Time</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody id="table">
               @forelse ($visitors as $visitor)
-                <tr> 
+                <tr class="border"> 
                     <td>{{ $visitor->res_name }}</td>
                     <td>{{ $visitor->role }}</td>
                     <td>{{ $visitor->id_number }}</td>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
-    protected $fillable = ['user_id','res_name','date','in', 'role', 'id_number', 'cp_number', 'tel_number', 'address', 'emergency_contact', 'ec_cp_number', 'email', 'image'];
+    protected $fillable = ['user_id','res_name','date','in', 'out', 'role', 'id_number', 'cp_number', 'tel_number', 'address', 'emergency_contact', 'ec_cp_number', 'email', 'image', 'section'];
     
     public function resident(){
         return $this->belongsTo(User::class);

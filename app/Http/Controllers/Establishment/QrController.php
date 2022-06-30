@@ -27,32 +27,69 @@ class QrController extends Controller
         $travel = TravelHistory::where('out','=',null)->orWhere('establishment_id','=',$id)->orWhere('user_id','=',Auth::user()->id)->latest()->first();
         
         $date = Carbon::now();
-        $student = Attendance::where('user_id', '=', Auth::user()->id)->latest('date');
+        $student = Attendance::where('user_id', '=', Auth::user()->id)->latest()->first();
+        $scanverify = TravelHistory::where('user_id', '=', Auth::user()->id)->latest()->first();
         $verify = Auth::user()->profile->role;
 
-        //dd($student->date);
+        //dd($scanverify);
 
-        TravelHistory::create([
-            'user_id' => Auth::user()->id,
-            'res_name' => Auth::user()->profile->getFullname(),
-            'date' =>  Carbon::now()->format('Y-m-d'),
-            'in'   => Carbon::now()->isoFormat('hh:mm a'),
-            'role' => Auth::user()->profile->role,
-            'email' => Auth::user()->email,
-            'id_number' => Auth::user()->profile->id_number,
-            'cp_number' => Auth::user()->profile->cp_number,
-            'tel_number' => Auth::user()->profile->tel_number,
-            'emergency_contact' => Auth::user()->contact->emergency_contact,
-            'ec_cp_number' => Auth::user()->contact->ec_cp_number,
-            'address' => Auth::user()->profile->getFullAddress(),
-            'establishment_id' => $establishment->id,
-            'establishment_name' => $establishment->information->company_name,
-            'establishment_address' => $establishment->information->company_address
-        ]);
+        if($scanverify == null){
+                TravelHistory::create([
+                'user_id' => Auth::user()->id,
+                'res_name' => Auth::user()->profile->getFullname(),
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => Carbon::now()->isoFormat('hh:mm a'),
+                'role' => Auth::user()->profile->role,
+                'email' => Auth::user()->email,
+                'id_number' => Auth::user()->profile->id_number,
+                'cp_number' => Auth::user()->profile->cp_number,
+                'tel_number' => Auth::user()->profile->tel_number,
+                'emergency_contact' => Auth::user()->contact->emergency_contact,
+                'ec_cp_number' => Auth::user()->contact->ec_cp_number,
+                'address' => Auth::user()->profile->getFullAddress(),
+                'establishment_id' => $establishment->id,
+                'establishment_name' => $establishment->information->company_name,
+                'establishment_address' => $establishment->information->company_address
+            ]);
+        }
+
+        elseif($scanverify != null){
+                if($scanverify->date != Carbon::today()->format('Y-m-d')){
+                    TravelHistory::create([
+                        'user_id' => Auth::user()->id,
+                        'res_name' => Auth::user()->profile->getFullname(),
+                        'date' =>  Carbon::now()->format('Y-m-d'),
+                        'in'   => Carbon::now()->isoFormat('hh:mm a'),
+                        'role' => Auth::user()->profile->role,
+                        'email' => Auth::user()->email,
+                        'id_number' => Auth::user()->profile->id_number,
+                        'cp_number' => Auth::user()->profile->cp_number,
+                        'tel_number' => Auth::user()->profile->tel_number,
+                        'emergency_contact' => Auth::user()->contact->emergency_contact,
+                        'ec_cp_number' => Auth::user()->contact->ec_cp_number,
+                        'address' => Auth::user()->profile->getFullAddress(),
+                        'establishment_id' => $establishment->id,
+                        'establishment_name' => $establishment->information->company_name,
+                        'establishment_address' => $establishment->information->company_address
+                    ]);
+                }
+
+                elseif($scanverify->date = Carbon::today()->format('Y-m-d')){
+                    TravelHistory::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                        'user_id' => Auth::user()->id,
+                        'res_name' => Auth::user()->profile->getFullname(),
+                        'date' =>  Carbon::now()->format('Y-m-d'),
+                        'in'   => Carbon::now()->isoFormat('hh:mm a'),
+                        'role' => Auth::user()->profile->role,
+                        'id_number' => Auth::user()->profile->id_number,
+                    ]);
+                }
+        }
+        
 
         
-        if($verify != "Visitor"){
-            if($student === null){
+        if($verify != "Visitor"){         
+            if($student == null){
                 Attendance::create([
                     'user_id' => Auth::user()->id,
                     'res_name' => Auth::user()->profile->getFullname(),
@@ -67,11 +104,13 @@ class QrController extends Controller
                     'ec_cp_number' => Auth::user()->contact->ec_cp_number,
                     'address' => Auth::user()->profile->getFullAddress(),
                     'image' => "/img/Logo.png",
+                    'section' => Auth::user()->profile->getfullsection(),
                 ]);
             }
-
-            elseif($student != null){
-                    Attendance::where('user_id','=', Auth::user()->id)->update([
+            
+            elseif($student != null){                       
+                if($student->date != Carbon::today()->format('Y-m-d')) {
+                    Attendance::create([
                         'user_id' => Auth::user()->id,
                         'res_name' => Auth::user()->profile->getFullname(),
                         'date' =>  Carbon::now()->format('Y-m-d'),
@@ -85,8 +124,33 @@ class QrController extends Controller
                         'ec_cp_number' => Auth::user()->contact->ec_cp_number,
                         'address' => Auth::user()->profile->getFullAddress(),
                         'image' => "/img/Logo.png",
+                        'section' => Auth::user()->profile->getfullsection(),
                     ]);
-            }                        
+                }
+
+                elseif($student->date = Carbon::today()->format('Y-m-d')){                     
+                        if($student->out == null){
+                             Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                            'date' =>  Carbon::now()->format('Y-m-d'),
+                            'out'   => Carbon::now()->isoFormat('hh:mm a'),
+                            'role' => Auth::user()->profile->role,
+                            'id_number' => Auth::user()->profile->id_number,
+                            'section' => Auth::user()->profile->getfullsection(),
+                            ]);
+                        }
+                        
+                        if($student->out != null){
+                            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                           'date' =>  Carbon::now()->format('Y-m-d'),
+                           'in'   => Carbon::now()->isoFormat('hh:mm a'),
+                           'out' => null,
+                           'role' => Auth::user()->profile->role,
+                           'id_number' => Auth::user()->profile->id_number,
+                           'section' => Auth::user()->profile->getfullsection(),
+                           ]);
+                       }
+                }
+            }
         }
        
 

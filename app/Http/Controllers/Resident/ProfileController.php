@@ -59,7 +59,9 @@ class ProfileController extends Controller
                 'tel_number' => $request->tel_number,
                 'cp_number' => $request->cp_number,
                 'role' => $request->role,
-                'id_number' => $request->id_number
+                'id_number' => $request->id_number,
+                'course' => $request->course,
+                'section' => $request->section
             ]);
     
             Contact::create([
@@ -100,6 +102,8 @@ class ProfileController extends Controller
                 'cp_number' => $request->cp_number,
                 'role' => $request->role,
                 'id_number' => $request->id_number,
+                'course' => $request->course,
+                'section' => $request->section
             ]);
     
             Contact::where('user_id','=',$id)->update([

@@ -30,7 +30,8 @@ class CreateProfilesTable extends Migration
             $table->string('tel_number')->nullable();     
             $table->string('role');
             $table->string('id_number')->nullable();
-            
+            $table->string('course');
+            $table->string('section');          
             $table->timestamps();
         });
     }

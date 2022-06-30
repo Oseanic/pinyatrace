@@ -15,7 +15,20 @@ class AttendanceController extends Controller
         $dt = "Latest to Oldest";
         $week = [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]; 
        
-        $attendances = Attendance::orderBy('date','DESC')->paginate(15);
+        $attendances = Attendance::orderBy('created_at','DESC')->paginate(15);
+
+        return view('pages.establishment.attendance.index', compact('attendances', 'week', 'date', 'dt'));
+    }
+
+    public function kick($id)
+    {
+        Attendance::find($id)->update([
+            'date' =>  Carbon::now()->format('Y-m-d'),
+            'out'   => Carbon::now()->isoFormat('hh:mm a'),
+            'role' => Auth::user()->profile->role,
+            'id_number' => Auth::user()->profile->id_number,
+            'section' => Auth::user()->profile->getfullsection(),
+        ]);
 
         return view('pages.establishment.attendance.index', compact('attendances', 'week', 'date', 'dt'));
     }

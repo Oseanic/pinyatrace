@@ -97,7 +97,7 @@
                 <option>Visitor</option>
                 <option>Student</option>
                 <option>Professor</option>
-                <option>Faculty & Staff</option>
+                <option>Admin & Staff</option>
               </select>
               <div class="invalid-tooltip">
                 Please select a valid role.
@@ -108,6 +108,19 @@
               <label for="id_number">ID Number</label>
               <input type="text" class="form-control" id="id_number" name="id_number" pattern="[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}" title="Incorrect Format of ID Number" readonly>
             </div>
+          </div>
+
+          <h6 class="heading-small text-muted mb-4 text-center">Course and Section</h6>
+          <div class="form-row d-flex justify-content-center">
+            <div class="col-md-4 mb-3">
+                <label for="role">Course (Acronym only)</label>
+                <input type="text" class="form-control" id="course" name="course" pattern="[A-Z]{4}" title="Incorrect Format of Course" readonly>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="role">Section</label>
+                <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" title="Incorrect Format of Section" readonly>
+              </div>
           </div>
 
           <h6 class="heading-small text-muted mb-4 text-center">Contact information</h6>
@@ -184,22 +197,36 @@
 document.getElementById('role').onchange = function () {
     if(this.value == 'Visitor') {
       document.getElementById("id_number").value = "N/A";
+      document.getElementById("course").value = "N/A";
+      document.getElementById("section").value = "N/A";
       $("#id_number").attr('readonly', 'readonly');
+      $("#course").attr('readonly', 'readonly');
+      $("#section").attr('readonly', 'readonly');
     }
 
     if(this.value == 'Student') {
       document.getElementById("id_number").pattern = "[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}";
+      document.getElementById("course").pattern = "[A-Z]{4}";
+      document.getElementById("section").pattern = "[1-4]{1}-[1-4]{1}";
       $("#id_number").removeAttr('readonly');
+      $("#course").removeAttr('readonly');
+      $("#section").removeAttr('readonly');
     }
 
     if(this.value == 'Professor') {
       document.getElementById("id_number").pattern = "[0-9]{5}";
       $("#id_number").removeAttr('readonly');
+
+      $("#course").attr('readonly', 'readonly');
+      $("#section").attr('readonly', 'readonly');
     }
 
-    if(this.value == 'Faculty & Staff') {
+    if(this.value == 'Admin & Staff') {
       document.getElementById("id_number").pattern = "[0-9]{5}";
       $("#id_number").removeAttr('readonly');
+
+      $("#course").attr('readonly', 'readonly');
+      $("#section").attr('readonly', 'readonly');
     }
 
 }

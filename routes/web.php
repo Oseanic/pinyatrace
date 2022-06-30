@@ -130,6 +130,7 @@ Route::prefix('establishment')->group(function(){
         Route::get('/attendance', 'Establishment\AttendanceController@index')->name('attendance');
         Route::get('/detailA/{id}', 'Establishment\AttendanceController@detail');
         Route::get('attendance/detailA/{id}', 'Establishment\AttendanceController@detail');
+        //Route::put('/attendancekick/{id}', 'Establishment\AttendanceController@kick')->name('attendance.kick');
 
         Route::get('/attendance/viewnow', 'Establishment\AttendanceController@searchtoday')->name('attendance.searchtoday');
         Route::get('/attendance/viewmonthnow', 'Establishment\AttendanceController@searchtodaymonth')->name('attendance.searchtodaymonth');

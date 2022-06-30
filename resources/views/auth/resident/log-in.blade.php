@@ -57,7 +57,9 @@ div.c-app  {
                         <button class="btn btn-primary px-4" type="submit">{{ __('Login') }}</button>
                     </div>
                     </form>
-          
+                    <!-- <div class="col-6 text-right">
+                        <a href="{{ route('password.request') }}" class="btn btn-link px-0" type="button">{{ __('Forgot Your Password?') }}</a>
+                    </div> -->
                     </div>
               </div>
             </div>
