@@ -21,8 +21,17 @@
 
                                 <span class="text-primary ml-5 mr-1">Date: </span>
                                 <p class="text-black">{{ Carbon\Carbon::parse($location->date)->format('F, d Y') }}</p>
-                                </div>        
-                            </h6>                           
+                                </div>
+                            </h6>
+                            @if(Auth::user()->profile->role == 'Visitor')
+                            <hr>
+                            <h5>
+                            <div class="row d-flex justify-content-center">
+                                    <p><span class="text-primary mr-2">Reason for Visit: </span>
+                                    <p class="text-black">{{ $location->reason_visit }}</p>
+                            </div>
+                            </h5>
+                            @endif
                         </div>
                     </li>
                 @empty

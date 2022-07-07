@@ -50,6 +50,7 @@ Route::prefix('resident')->group(function(){
             Route::get('/', 'Resident\ScannerController@index')->name('scanner');
             Route::get('/{id}', 'Resident\ScannerController@hasScanned')->name('has.scanned');
             Route::get('/cam', 'Resident\ScannerController@camera')->name('camera.scanner');
+           
             //HEALTH DECLARATION
         });
         
@@ -57,7 +58,8 @@ Route::prefix('resident')->group(function(){
     });
     //QR
     Route::get('/in/{id}', 'Establishment\QrController@in')->name('in');
-    Route::get('/out/{id}', 'Establishment\QrController@out')->name('out');
+    Route::get('/out/{id}', 'Establishment\QrController@out')->name('out'); 
+    Route::get('/updatereason', 'Establishment\QrController@updatereason')->name('updatereason');
 });
 
 Route::prefix('tracer')->group(function(){
@@ -130,11 +132,25 @@ Route::prefix('establishment')->group(function(){
         Route::get('/attendance', 'Establishment\AttendanceController@index')->name('attendance');
         Route::get('/detailA/{id}', 'Establishment\AttendanceController@detail');
         Route::get('attendance/detailA/{id}', 'Establishment\AttendanceController@detail');
-        //Route::put('/attendancekick/{id}', 'Establishment\AttendanceController@kick')->name('attendance.kick');
+        Route::get('/attendancekick/{id}', 'Establishment\AttendanceController@kick')->name('attendance.kick');
 
         Route::get('/attendance/viewnow', 'Establishment\AttendanceController@searchtoday')->name('attendance.searchtoday');
         Route::get('/attendance/viewmonthnow', 'Establishment\AttendanceController@searchtodaymonth')->name('attendance.searchtodaymonth');
         Route::get('/attendance/viewweeknow', 'Establishment\AttendanceController@searchtodayweek')->name('attendance.searchtodayweek');
+        //Filter Attendance
+        Route::get('/attendance/viewday', 'Establishment\AttendanceController@searchday')->name('attendance.searchday');
+        Route::get('/attendance/viewweek', 'Establishment\AttendanceController@searchweek')->name('attendance.searchweek');
+        Route::get('/attendance/viewmonth', 'Establishment\AttendanceController@searchmonth')->name('attendance.searchmonth');
+        Route::get('/attendance/searchrange', 'Establishment\AttendanceController@searchrange')->name('attendance.searchrange');
+        Route::get('/attendance/searchrole', 'Establishment\AttendanceController@searchrole')->name('attendance.searchrole');
+        Route::get('/attendance/searchnotallowed', 'Establishment\AttendanceController@searchnotallowed')->name('attendance.searchnotallowed');
+        //Print Attendance
+        Route::get('/attendance/printday', 'Establishment\AttendanceController@printday')->name('attendance.printday');
+        Route::get('/attendance/printweek', 'Establishment\AttendanceController@printweek')->name('attendance.printweek');
+        Route::get('/attendance/printmonth', 'Establishment\AttendanceController@printmonth')->name('attendance.printmonth');
+        Route::get('/attendance/printrange', 'Establishment\AttendanceController@printrange')->name('attendance.printrange');
+        Route::get('/attendance/printall', 'Establishment\AttendanceController@printall')->name('attendance.printall');
+        Route::get('/attendance/printnotallowed', 'Establishment\AttendanceController@printnotallowed')->name('attendance.printnotallowed');
 
         //INFORMATION
         Route::get('/information', 'Establishment\InformationController@index')->name('information');

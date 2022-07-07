@@ -16,18 +16,6 @@
           </div>
 
         
-
-        @if(Session::has('error'))
-        <div class="row">
-            <div class="col-12">
-                <div class="alert alert-danger">
-                    {{ Session::get('error') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </div>
-            </div>
-        </div>
-        @endif    
         <div class="d-flex justify-content-center">
           <h1 class="mb-4 text-primary">Attendances - </h1><h1 class="mb-4 ml-2 text-black">{{ $dt }}</h1>
         </div>
@@ -35,10 +23,22 @@
         <button type="button" class="btn btn-primary btn mb-3" data-toggle="modal" data-target="#presentModal">Present</button>
         <button type="button" class="btn btn-info btn mb-3" data-toggle="modal" data-target="#filterModal">Date Filter</button>
         <button type="button" class="ex1 btn btn-success mb-3" data-toggle="modal" data-target="#dateModal">Date Range</button>
-        <a href="{{ route('attendance') }}" class="btn btn-danger btn mb-3" role="button" aria-pressed="true">View all</a>
+        <a href="{{ route('attendance.searchnotallowed') }}" class="btn btn-danger btn mb-3" role="button">Not allowed</a>
+        <button type="button" class="btn btn-dark btn mb-3" data-toggle="modal" data-target="#roleModal">Role Filter</button>
+        <a href="{{ route('attendance') }}" class="btn btn-light btn mb-3" role="button" aria-pressed="true">View all</a>
         <button type="button" class="btn btn-secondary btn mb-3" data-toggle="modal" data-target="#printModal"><i class="cil-print"></i> Print</button>
         </div>
         
+        @if(Session::has('error'))
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger">
+                    {{ Session::get('error') }}
+                </div>
+            </div>
+        </div>
+        @endif    
+
         <div class="mt-3 d-flex justify-content-end">
                     <input type="text" id="myInput" placeholder="Search..." title="Type in a name" autocomplete="off">
         </div>
@@ -70,12 +70,12 @@
                     <td>N/A</td>
                     @endif
                     <td>{{ Carbon\Carbon::parse($attendance->date)->format('M, d Y') }}</td>
-                    <td>{{ $attendance->in }}</td>
-                    <td>{{ $attendance->out === null ? 'Still inside' : $attendance->out }}</td>
+                    <td class="{{ $attendance->in === 'Not allowed' ? 'text-danger' : 'text-black'}}">{{ $attendance->in }}</td>
+                    <td class="{{ $attendance->out === 'Not allowed' ? 'text-danger' : 'text-black'}}">{{ $attendance->out === null ? 'Still inside' : $attendance->out }}</td>
                     <td><button class="btn-sm btn-primary detail-btn" data-toggle="modal" data-target="#exampleModal" data-id="{{ $attendance->id }}">View</button>
-                        <!-- @if($attendance->out == null)
-                        <a href="#" method="PUT" class="btn-sm btn-danger btn" role="button" aria-pressed="true">Kick</a>
-                        @endif</td> -->
+                        @if($attendance->out == null)
+                        <a href="{{ route('attendance.kick', [$attendance->id]) }}" class="btn-sm btn-danger btn" role="button" aria-pressed="true">Kick</a>
+                        @endif</td>
                 </tr>
                 @empty
                 <tr>
@@ -233,7 +233,8 @@
         </button>
       </div>
       <div class="modal-body">
-            <form action="{{ route('visitors.search') }}" medthod = "POST">
+            <form action="{{ route('attendance.searchday') }}" medthod = "POST">
+              <p>Input Day:</p>
               <input type="date" class="form-control" id="date" name="date" required></div> 
               
               <div class="d-flex justify-content-center mb-3">
@@ -246,7 +247,247 @@
   </div>
 </div>
 
+<!-- Week Filter Modal -->
+<div class="modal fade" id="weekModal" tabindex="-1" role="dialog" aria-labelledby="weekModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Week Filter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('attendance.searchweek') }}">
+          <p>Input Week:</p>
+              <input type="week" class="form-control mb-3" id="week" name="week" required>
 
+              <div class="d-flex justify-content-center">
+              <input type="submit" class="btn btn-primary" value="View">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#filterModal">Close</button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Month Filter Modal -->
+<div class="modal fade" id="monthModal" tabindex="-1" role="dialog" aria-labelledby="monthModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Month Filter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('attendance.searchmonth') }}">
+          <p>Input Month:</p>
+              <input type="month" class="form-control mb-3" id="month" name="month" required>
+
+              <div class="d-flex justify-content-center">
+              <input type="submit" class="btn btn-primary" value="View">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#filterModal">Close</button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Range Filter Modal -->
+<div class="modal fade" id="dateModal" tabindex="-1" role="dialog" aria-labelledby="dateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="dateleModalLabel">Input Dates</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      
+      <div class="modal-body">
+            <form action="{{ route('attendance.searchrange') }}" medthod = "POST">
+              <p>From:</p>
+                <input type="date" class="form-control" id="date1" name="date1" required>
+                <p class="mt-3">To:</p>
+              <input type="date" class="form-control mb-3" id="date2" name="date2" required>
+
+              <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-primary" value="View">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Role Filter Modal -->
+<div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Role Filter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('attendance.searchrole') }}">
+          <p>Input Role:</p>
+              <select class="custom-select" id="role" name="role" required>
+                <option selected disabled value="">Choose Role...</option>
+                <option value="Student">Student</option>
+                <option value="Professor">Professor</option>
+                <option value="Faculty & Staff">Admin & Staff</option>
+              </select>
+            <div class="d-flex justify-content-center">
+              <input type="submit" class="btn btn-primary mt-2" value="View">
+              <button type="button" class="btn btn-secondary mt-2" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Print Options Modal -->
+<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="exampleprintModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Print <i class="cil-print"></i></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <p>Choose Print Filter:</p>
+      
+      <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-primary btn mb-3" data-dismiss="modal" data-toggle="modal" data-target="#printdayModal">Day</button>
+      <button type="button" class="btn btn-info btn mb-3" data-dismiss="modal" data-toggle="modal" data-target="#printweekModal">Week</button>
+      <button type="button" class="btn btn-warning btn mb-3" data-dismiss="modal" data-toggle="modal" data-target="#printmonthModal">Month</button>
+      </div>
+      
+      <div class="border mt-3 mb-3"></div>
+      <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#rangeModal" data-dismiss="modal">Date Range</button>
+      <a href="{{ route('attendance.printnotallowed') }}" class="btn btn-danger btn mb-3" role="button" target="_blank">Not allowed</a>
+      <a href="{{ route('attendance.printall') }}" class="btn btn-secondary btn mb-3" role="button" aria-pressed="true" target="_blank"><i class="cil-print"></i> Print All</a>
+      </div>  
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Print Day Filter Modal -->
+<div class="modal fade" id="printdayModal" tabindex="-1" role="dialog" aria-labelledby="printdayModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Print Day</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form action="{{ route('attendance.printday') }}" medthod = "POST"  target="_blank">
+              <input type="date" class="form-control" id="date" name="date" required></div> 
+              
+              <div class="d-flex justify-content-center mb-3">
+              <input type="submit" class="btn btn-primary" value="Print">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#printModal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Print Week Filter Modal -->
+<div class="modal fade" id="printweekModal" tabindex="-1" role="dialog" aria-labelledby="printweekModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Print Week</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form action="{{ route('attendance.printweek') }}" medthod = "POST"  target="_blank">
+              <input type="week" class="form-control" id="week" name="week" required></div> 
+              
+              <div class="d-flex justify-content-center mb-3">
+              <input type="submit" class="btn btn-primary" value="Print">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#printModal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Print Month Modal -->
+<div class="modal fade" id="printmonthModal" tabindex="-1" role="dialog" aria-labelledby="printmonthModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Print Month</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('attendance.printmonth') }}" medthod ="POST"  target="_blank">
+          <p>Input Month:</p>
+              <input type="month" class="form-control mb-3" id="month" name="month" required>
+
+              <div class="d-flex justify-content-center">
+              <input type="submit" class="btn btn-primary" value="Print">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#printModal">Close</button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Print Range Modal -->
+<div class="modal fade" id="rangeModal" tabindex="-1" role="dialog" aria-labelledby="rangeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="dateleModalLabel">Print Input Dates</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      
+      <div class="modal-body">
+            <form action="{{ route('attendance.printrange') }}" medthod = "POST"  target="_blank">
+              <p>From:</p>
+                <input type="date" class="form-control" id="date1" name="date1" required>
+                <p class="mt-3">To:</p>
+              <input type="date" class="form-control mb-3" id="date2" name="date2" required>
+
+              <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-primary" value="Print">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form> 
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('js')

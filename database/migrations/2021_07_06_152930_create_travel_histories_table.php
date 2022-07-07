@@ -29,6 +29,7 @@ class CreateTravelHistoriesTable extends Migration
             $table->string('emergency_contact');
             $table->string('ec_cp_number');
             $table->string('email');
+            $table->string('reason_visit')->nullable();
             $table->unsignedBigInteger('establishment_id');
             $table->foreign('establishment_id')->references('id')->on('establishments');
             $table->string('establishment_name');

@@ -106,6 +106,14 @@ class QrController extends Controller
                     'image' => "/img/Logo.png",
                     'section' => Auth::user()->profile->getfullsection(),
                 ]);
+
+                if($establishment->information->health_dec_status == "Enabled"){
+                    return redirect()->route('has.scanned', $id)->with('health', 'Kindly answer this health declaration form')->with(compact(['establishment', 'dateTime']));
+                }
+        
+                else{
+                    return redirect()->route('scanner')->with('enter', 'Thank you for scanning! Welcome!');
+                }
             }
             
             elseif($student != null){                       
@@ -126,6 +134,14 @@ class QrController extends Controller
                         'image' => "/img/Logo.png",
                         'section' => Auth::user()->profile->getfullsection(),
                     ]);
+
+                    if($establishment->information->health_dec_status == "Enabled"){
+                        return redirect()->route('has.scanned', $id)->with('health', 'Kindly answer this health declaration form')->with(compact(['establishment', 'dateTime']));
+                    }
+            
+                    else{
+                        return redirect()->route('scanner')->with('enter', 'Thank you for scanning! Welcome!');
+                    }
                 }
 
                 elseif($student->date = Carbon::today()->format('Y-m-d')){                     
@@ -136,7 +152,9 @@ class QrController extends Controller
                             'role' => Auth::user()->profile->role,
                             'id_number' => Auth::user()->profile->id_number,
                             'section' => Auth::user()->profile->getfullsection(),
-                            ]);
+                            ]);     
+                            
+                            return redirect()->route('scanner')->with('out', 'Thank you for scanning out!');
                         }
                         
                         if($student->out != null){
@@ -148,6 +166,14 @@ class QrController extends Controller
                            'id_number' => Auth::user()->profile->id_number,
                            'section' => Auth::user()->profile->getfullsection(),
                            ]);
+
+                            if($establishment->information->health_dec_status == "Enabled"){
+                                return redirect()->route('has.scanned', $id)->with('health', 'Kindly answer this health declaration form')->with(compact(['establishment', 'dateTime']));
+                            }
+                    
+                            else{
+                                return redirect()->route('scanner')->with('enter', 'Thank you for scanning! Welcome!');
+                            }  
                        }
                 }
             }
@@ -159,11 +185,30 @@ class QrController extends Controller
         }
 
         else{
-            return redirect()->route('scanner')->with('enter', 'Thank you for scanning!');
+            return redirect()->route('scanner')->with('reason', 'Please Input Reason for Visiting');
         }
         
         //return view('pages.resident.qr-code.scanner', )->with('show');
         //}
+    }
+
+    public function updatereason(Request $request)
+    {
+        try{
+                TravelHistory::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'reason_visit' => $request->reason_visit,
+            ]);
+
+            return redirect()->route('scanner')->with('enter', 'Thank you for scanning!');
+        }
+        catch (\Illuminate\Database\QueryException $exception) {
+       
+            $errorInfo = $exception->errorInfo;
+       
+            return dd($errorInfo);
+       
+        }
+       
     }
 
     public function out($id)
@@ -188,6 +233,13 @@ class QrController extends Controller
                 'in' => "Not allowed",
                 'out' => "Not allowed"
             ]);
+
+            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => "Not allowed",
+                'out' => "Not allowed",
+                ]);
+
             return redirect()->route('scanner')->with('danger', sprintf("You're temperature is %s", $request->temp));
 
         }
@@ -197,6 +249,12 @@ class QrController extends Controller
                 'in' => "Not allowed",
                 'out' => "Not allowed"
             ]);
+
+            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => "Not allowed",
+                'out' => "Not allowed",
+                ]);
             return redirect()->route('scanner')->with('danger', sprintf("You are not allowed to enter"));
 
         }
@@ -206,6 +264,12 @@ class QrController extends Controller
                 'in' => "Not allowed",
                 'out' => "Not allowed"
             ]);
+
+            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => "Not allowed",
+                'out' => "Not allowed",
+                ]);
             return redirect()->route('scanner')->with('danger', sprintf("You are not allowed to enter"));
 
 
@@ -216,6 +280,12 @@ class QrController extends Controller
                 'in' => "Not allowed",
                 'out' => "Not allowed"
             ]);
+
+            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => "Not allowed",
+                'out' => "Not allowed",
+                ]);
             return redirect()->route('scanner')->with('danger', sprintf("You are not allowed to enter"));
 
 
@@ -226,6 +296,12 @@ class QrController extends Controller
                 'in' => "Not allowed",
                 'out' => "Not allowed"
             ]);
+
+            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => "Not allowed",
+                'out' => "Not allowed",
+                ]);
             return redirect()->route('scanner')->with('danger', sprintf("You are not allowed to enter"));
 
 
@@ -237,6 +313,12 @@ class QrController extends Controller
                 'out' => "Not allowed"
             ]);
 
+            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => "Not allowed",
+                'out' => "Not allowed",
+                ]);
+
             return redirect()->route('scanner')->with('danger', sprintf("You are not allowed to enter"));
 
 
@@ -247,6 +329,12 @@ class QrController extends Controller
                 'in' => "Not allowed",
                 'out' => "Not allowed"
             ]);
+
+            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => "Not allowed",
+                'out' => "Not allowed",
+                ]);
             return redirect()->route('scanner')->with('danger', sprintf("You are not allowed to enter"));
 
 
@@ -257,6 +345,12 @@ class QrController extends Controller
                 'in' => "Not allowed",
                 'out' => "Not allowed"
             ]);
+
+            Attendance::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'date' =>  Carbon::now()->format('Y-m-d'),
+                'in'   => "Not allowed",
+                'out' => "Not allowed",
+                ]);
             return redirect()->route('scanner')->with('danger', sprintf("You are not allowed to enter"));
 
         }
@@ -273,6 +367,10 @@ class QrController extends Controller
                 'runny_nose' => $request->runny_nose,
                 'sore_throat' => $request->sore_throat,
                 'shortness_of_breath' => $request->shortness_of_breath
+            ]);
+
+            TravelHistory::where('user_id','=', Auth::user()->id)->where('date','=', Carbon::today())->update([
+                'reason_visit' => $request->reason_visit,
             ]);
 
             return redirect()->route('scanner')->with('enter', 'You may enter!');

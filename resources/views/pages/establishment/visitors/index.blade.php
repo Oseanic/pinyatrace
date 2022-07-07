@@ -79,6 +79,7 @@ div.alert{
                 <th>ID Number</th>
                 <th>Date</th>
                 <th>Scan Time</th>
+                <th>Reason for Visit</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -90,6 +91,11 @@ div.alert{
                     <td>{{ $visitor->id_number }}</td>
                     <td>{{ Carbon\Carbon::parse($visitor->date)->format('M, d Y') }}</td>
                     <td class="{{ $visitor->in === 'Not allowed' ? 'text-danger' : 'text-black'}}">{{ $visitor->in }}</td>
+                    @if($visitor->reason_visit != null)
+                    <td>{{ $visitor->reason_visit }}</td>
+                    @else
+                    <td>N/A</td>
+                    @endif
                     <td><button class="btn-sm btn-primary detail-btn" data-toggle="modal" data-target="#exampleModal" data-id="{{ $visitor->id }}">View</button>
                    
                   </td>
@@ -326,7 +332,7 @@ div.alert{
                 <option value="Visitor">Visitor</option>
                 <option value="Student">Student</option>
                 <option value="Professor">Professor</option>
-                <option value="Faculty & Staff">Faculty & Staff</option>
+                <option value="Faculty & Staff">Admin & Staff</option>
               </select>
             <div class="d-flex justify-content-center">
               <input type="submit" class="btn btn-primary mt-2" value="View">

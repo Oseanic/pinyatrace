@@ -7,6 +7,15 @@
 @endsection
 
 @section('main')
+
+<style>
+  #reason_visit
+{
+    height:60px;
+    font-size:14pt;
+    width: 400px;
+}
+</style>
 <div class="container w-75 mt-3">
   @component('components.alert')@endcomponent
   <div class="row">
@@ -181,7 +190,18 @@
                     </div>
                   </div>
                 </div>
-              </div> 
+              </div>
+
+              @if(Auth::user()->profile->role == 'Visitor')
+              <hr>
+              <h2 class="d-flex justify-content-center">Reason for Visit</h2>
+              <div class="row mb-3 d-flex justify-content-center">
+                <div>
+                  <input type="text" id="reason_visit" name="reason_visit" required>
+                </div>
+              </div>
+              @endif
+
             <div class="model-footer d-flex flex-row-reverse">
               <button class="btn btn-primary" type="submit" value="Submit Form">Submit</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -193,6 +213,7 @@
       </div>
     </div>
   @endif
+
   @if(session('out'))
     <script type="text/javascript">
       $(document).ready(function() {
@@ -222,6 +243,42 @@
       </div>
     </div>
   @endif
+
+  @if(session('reason'))
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#modal-notification').modal();
+      });
+    </script>
+    <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+      <div class="modal-dialog modal-success modal-dialog-centered modal-" role="document">
+        <div class="modal-content bg-gradient-success">
+          <div class="modal-header">
+            <h6 class="modal-title" id="modal-title-notification">{{ session('reason') }}</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="py-3 text-center">
+                <form action="{{ route('updatereason') }}" >
+                  <h2 class="d-flex justify-content-center">Reason for Visit</h2>
+                  <div class="row mb-2 d-flex justify-content-center">
+                    <div>
+                      <input type="text" id="reason_visit" name="reason_visit" autocomplete="off" required>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-primary" type="submit" value="Submit Form">Submit</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  @endif
+
   <div class="row">
     <div class="card w-100">
       <div class="row d-flex justify-content-center pt-3">
@@ -357,7 +414,17 @@
                     </div>
                   </div>
                 </div>
-              </div> 
+              </div>
+
+              @if(Auth::user()->profile->role == 'Visitor')
+              <hr>
+              <h2 class="d-flex justify-content-center">Reason for Visit</h2>
+              <div class="row mb-2 d-flex justify-content-center">
+                <div>
+                  <input type="text" id="reason_visit" name="reason_visit" autocomplete="off" required>
+                </div>
+              </div>
+              @endif 
             <div class="model-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button class="btn btn-primary" type="submit" value="Submit Form">Submit</button>

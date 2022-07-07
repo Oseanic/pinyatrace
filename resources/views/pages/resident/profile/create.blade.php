@@ -217,6 +217,9 @@ document.getElementById('role').onchange = function () {
       document.getElementById("id_number").pattern = "[0-9]{5}";
       $("#id_number").removeAttr('readonly');
 
+      document.getElementById("course").value = "N/A";
+      document.getElementById("section").value = "N/A";
+
       $("#course").attr('readonly', 'readonly');
       $("#section").attr('readonly', 'readonly');
     }
@@ -224,6 +227,9 @@ document.getElementById('role').onchange = function () {
     if(this.value == 'Admin & Staff') {
       document.getElementById("id_number").pattern = "[0-9]{5}";
       $("#id_number").removeAttr('readonly');
+
+      document.getElementById("course").value = "N/A";
+      document.getElementById("section").value = "N/A";
 
       $("#course").attr('readonly', 'readonly');
       $("#section").attr('readonly', 'readonly');

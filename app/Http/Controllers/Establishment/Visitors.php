@@ -22,7 +22,7 @@ class Visitors extends Controller
         $visitortotal = TravelHistory::count();
        
         //$resident = User::where('id','=',Auth::user()->id)->with('contact')->get();
-        $visitors = TravelHistory::where('establishment_id','=',Auth::guard('establishment')->user()->id)->orderBy('created_at','DESC')->paginate(15);
+        $visitors = TravelHistory::where('establishment_id','=',Auth::guard('establishment')->user()->id)->orderBy('updated_at','DESC')->paginate(15);
        
         //dd($contact);
         return view('pages.establishment.visitors.index', compact('visitors', 'week', 'date', 'dt'));  

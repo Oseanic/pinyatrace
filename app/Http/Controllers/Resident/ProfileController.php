@@ -44,6 +44,13 @@ class ProfileController extends Controller
 
     public function store(Request $request)
     {
+        $verify = Profile::where('id_number', '=', $request->id_number)->first();
+
+
+        if($verify != null){
+            return redirect()->route('profile.create')->with('danger', 'ID Number already exist');
+        }
+             
         try {
             Profile::create([
                 'user_id' => Auth::user()->id,
@@ -85,7 +92,7 @@ class ProfileController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
+    {     
         try {
             Profile::where('user_id','=',$id)->update([
                 'user_id' => Auth::user()->id,
