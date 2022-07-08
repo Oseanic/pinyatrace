@@ -46,53 +46,92 @@ class ProfileController extends Controller
     {
         $verify = Profile::where('id_number', '=', $request->id_number)->first();
 
+        //dd($verify);
 
-        if($verify != null){
+        if($verify->id_number == "N/A"){
+            try {
+                Profile::create([
+                    'user_id' => Auth::user()->id,
+                    'first_name' => $request->first_name,
+                    'surname' => $request->surname,
+                    'middle_name' => $request->middle_name,
+                    'dob' => $request->dob,
+                    'age' => $request->age,
+                    'sex' => $request->sex,
+                    'street' => $request->street,
+                    'barangay' => $request->barangay,
+                    'city' => $request->city,
+                    'tel_number' => $request->tel_number,
+                    'cp_number' => $request->cp_number,
+                    'role' => $request->role,
+                    'id_number' => $request->id_number,
+                    'course' => $request->course,
+                    'section' => $request->section
+                ]);
+        
+                Contact::create([
+                    'user_id' => Auth::user()->id,
+                    'emergency_contact' => $request->emergency_contact,
+                    'relationship' => $request->relationship,
+                    'ec_cp_number' => $request->ec_cp_number
+                ]);
+        
+                return redirect()->route('profile')->with('success', 'Profile saved!');
+    
+            } catch (\Illuminate\Database\QueryException $exception) {
+                $errorInfo = $exception->errorInfo;
+                return redirect()->route('profile.create');
+                //return dd($errorInfo);
+            }
+        }
+
+        elseif($verify->id_number != null){
             return redirect()->route('profile.create')->with('danger', 'ID Number already exist');
         }
-             
-        try {
-            Profile::create([
-                'user_id' => Auth::user()->id,
-                'first_name' => $request->first_name,
-                'surname' => $request->surname,
-                'middle_name' => $request->middle_name,
-                'dob' => $request->dob,
-                'age' => $request->age,
-                'sex' => $request->sex,
-                'street' => $request->street,
-                'barangay' => $request->barangay,
-                'city' => $request->city,
-                'tel_number' => $request->tel_number,
-                'cp_number' => $request->cp_number,
-                'role' => $request->role,
-                'id_number' => $request->id_number,
-                'course' => $request->course,
-                'section' => $request->section
-            ]);
-    
-            Contact::create([
-                'user_id' => Auth::user()->id,
-                'emergency_contact' => $request->emergency_contact,
-                'relationship' => $request->relationship,
-                'ec_cp_number' => $request->ec_cp_number
-            ]);
-    
-            return redirect()->route('profile')->with('success', 'Profile saved!');
+         
+        else{
+                try {
+                Profile::create([
+                    'user_id' => Auth::user()->id,
+                    'first_name' => $request->first_name,
+                    'surname' => $request->surname,
+                    'middle_name' => $request->middle_name,
+                    'dob' => $request->dob,
+                    'age' => $request->age,
+                    'sex' => $request->sex,
+                    'street' => $request->street,
+                    'barangay' => $request->barangay,
+                    'city' => $request->city,
+                    'tel_number' => $request->tel_number,
+                    'cp_number' => $request->cp_number,
+                    'role' => $request->role,
+                    'id_number' => $request->id_number,
+                    'course' => $request->course,
+                    'section' => $request->section
+                ]);
+        
+                Contact::create([
+                    'user_id' => Auth::user()->id,
+                    'emergency_contact' => $request->emergency_contact,
+                    'relationship' => $request->relationship,
+                    'ec_cp_number' => $request->ec_cp_number
+                ]);
+        
+                return redirect()->route('profile')->with('success', 'Profile saved!');
 
-        } catch (\Illuminate\Database\QueryException $exception) {
-
-            $errorInfo = $exception->errorInfo;
-
-            return redirect()->route('profile.create');
-
-            //return dd($errorInfo);
-
+            } catch (\Illuminate\Database\QueryException $exception) {
+                $errorInfo = $exception->errorInfo;
+                return redirect()->route('profile.create');
+                //return dd($errorInfo);
+            }
         }
+        
     }
 
     public function update(Request $request, $id)
     {     
+        $verify = Profile::where('id_number', '=', $request->id_number)->first();
+
         try {
             Profile::where('user_id','=',$id)->update([
                 'user_id' => Auth::user()->id,

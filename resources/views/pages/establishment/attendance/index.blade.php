@@ -74,7 +74,7 @@
                     <td class="{{ $attendance->out === 'Not allowed' ? 'text-danger' : 'text-black'}}">{{ $attendance->out === null ? 'Still inside' : $attendance->out }}</td>
                     <td><button class="btn-sm btn-primary detail-btn" data-toggle="modal" data-target="#exampleModal" data-id="{{ $attendance->id }}">View</button>
                         @if($attendance->out == null)
-                        <a href="{{ route('attendance.kick', [$attendance->id]) }}" class="btn-sm btn-danger btn" role="button" aria-pressed="true">Kick</a>
+                        <a href="{{ route('attendance.kick', [$attendance->id]) }}" class="btn-sm btn-danger btn" role="button" aria-pressed="true">Scan Out</a>
                         @endif</td>
                 </tr>
                 @empty

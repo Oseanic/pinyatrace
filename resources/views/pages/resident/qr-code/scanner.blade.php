@@ -197,7 +197,7 @@
               <h2 class="d-flex justify-content-center">Reason for Visit</h2>
               <div class="row mb-3 d-flex justify-content-center">
                 <div>
-                  <input type="text" id="reason_visit" name="reason_visit" required>
+                  <input type="text" id="reason_visit" name="reason_visit" autocomplete="off" required>
                 </div>
               </div>
               @endif
