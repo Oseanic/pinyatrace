@@ -48,6 +48,44 @@ class ProfileController extends Controller
 
         //dd($verify);
 
+        if($verify == null){
+            try {
+                Profile::create([
+                    'user_id' => Auth::user()->id,
+                    'first_name' => $request->first_name,
+                    'surname' => $request->surname,
+                    'middle_name' => $request->middle_name,
+                    'dob' => $request->dob,
+                    'age' => $request->age,
+                    'sex' => $request->sex,
+                    'street' => $request->street,
+                    'barangay' => $request->barangay,
+                    'city' => $request->city,
+                    'tel_number' => $request->tel_number,
+                    'cp_number' => $request->cp_number,
+                    'role' => $request->role,
+                    'id_number' => $request->id_number,
+                    'course' => $request->course,
+                    'section' => $request->section
+                ]);
+        
+                Contact::create([
+                    'user_id' => Auth::user()->id,
+                    'emergency_contact' => $request->emergency_contact,
+                    'relationship' => $request->relationship,
+                    'ec_cp_number' => $request->ec_cp_number
+                ]);
+        
+                return redirect()->route('profile')->with('success', 'Profile saved!');
+    
+            } catch (\Illuminate\Database\QueryException $exception) {
+                $errorInfo = $exception->errorInfo;
+                return redirect()->route('profile.create');
+                //return dd($errorInfo);
+            }
+        }
+        
+        
         if($verify->id_number == "N/A"){
             try {
                 Profile::create([
