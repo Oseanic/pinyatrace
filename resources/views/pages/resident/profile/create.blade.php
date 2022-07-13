@@ -106,7 +106,7 @@
 
             <div class="col-md-6 mb-3">
               <label for="id_number">ID Number</label>
-              <input type="text" class="form-control" id="id_number" name="id_number" pattern="[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}" title="Incorrect Format of ID Number" readonly>
+              <input type="text" class="form-control" id="id_number" name="id_number" pattern="[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}" title="Incorrect Format of ID Number" required readonly>
             </div>
           </div>
 
@@ -114,12 +114,12 @@
           <div class="form-row d-flex justify-content-center">
             <div class="col-md-4 mb-3">
                 <label for="role">Course (Acronym only)</label>
-                <input type="text" class="form-control" id="course" name="course" pattern="[A-Z]{4}" title="Incorrect Format of Course" readonly>
+                <input type="text" class="form-control" id="course" name="course" readonly required>
               </div>
 
               <div class="col-md-4 mb-3">
                 <label for="role">Section</label>
-                <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" title="Incorrect Format of Section" readonly>
+                <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" title="Incorrect Format of Section" required readonly>
               </div>
           </div>
 
@@ -206,7 +206,6 @@ document.getElementById('role').onchange = function () {
 
     if(this.value == 'Student') {
       document.getElementById("id_number").pattern = "[0-9]{4}-[0-9]{5}-[A-Z]{2}-[0-9]{1}";
-      document.getElementById("course").pattern = "[A-Z]{4}";
       document.getElementById("section").pattern = "[1-4]{1}-[1-4]{1}";
       $("#id_number").removeAttr('readonly');
       $("#course").removeAttr('readonly');
