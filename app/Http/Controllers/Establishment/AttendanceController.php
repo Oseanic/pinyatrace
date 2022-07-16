@@ -28,7 +28,7 @@ class AttendanceController extends Controller
         
         $attendance->update([
             'date' =>  Carbon::now()->format('Y-m-d'),
-            'out'   => Carbon::now()->isoFormat('hh:mm a'),
+            'out'   => "Scanned out by Admin: ".Carbon::now()->isoFormat('hh:mm a'),
         ]);
 
         return redirect()->route('attendance')->with('error', 'Student has been logged out of the establishment');
@@ -142,6 +142,16 @@ class AttendanceController extends Controller
         return view('pages.establishment.attendance.index', compact('show', 'attendances', 'dt'));
     }
 
+    public function searchsection(Request $request)
+    {
+        $dt = $request->course." ".$request->section;
+        $attendances = Attendance::where('section', '=', $dt)->orderBy('date','DESC')->paginate(1000);
+        $show = Attendance::where('section', '=', $dt)->get();
+
+        return view('pages.establishment.attendance.index', compact('show', 'attendances', 'dt'));
+    }
+
+
     public function printday(Request $request)
     {
         $date = Carbon::parse($request->date);
@@ -224,6 +234,17 @@ class AttendanceController extends Controller
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('pages.establishment.attendance.pdf', compact('show', 'attendances', 'dt'));
         return $pdf->stream();
+    }
+
+    public function printsection(Request $request)
+    {
+        $dt = $request->course." ".$request->section;
+        $attendances = Attendance::where('section', '=', $dt)->orderBy('date','DESC')->paginate(1000);
+        $show = Attendance::where('section', '=', $dt)->get();
+
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadView('pages.establishment.attendance.pdf', compact('show', 'attendances', 'dt'));
+        return $pdf->stream();        
     }
 
 }

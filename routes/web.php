@@ -144,6 +144,7 @@ Route::prefix('establishment')->group(function(){
         Route::get('/attendance/searchrange', 'Establishment\AttendanceController@searchrange')->name('attendance.searchrange');
         Route::get('/attendance/searchrole', 'Establishment\AttendanceController@searchrole')->name('attendance.searchrole');
         Route::get('/attendance/searchnotallowed', 'Establishment\AttendanceController@searchnotallowed')->name('attendance.searchnotallowed');
+        Route::get('/attendance/searchsection', 'Establishment\AttendanceController@searchsection')->name('attendance.searchsection');
         //Print Attendance
         Route::get('/attendance/printday', 'Establishment\AttendanceController@printday')->name('attendance.printday');
         Route::get('/attendance/printweek', 'Establishment\AttendanceController@printweek')->name('attendance.printweek');
@@ -151,6 +152,7 @@ Route::prefix('establishment')->group(function(){
         Route::get('/attendance/printrange', 'Establishment\AttendanceController@printrange')->name('attendance.printrange');
         Route::get('/attendance/printall', 'Establishment\AttendanceController@printall')->name('attendance.printall');
         Route::get('/attendance/printnotallowed', 'Establishment\AttendanceController@printnotallowed')->name('attendance.printnotallowed');
+        Route::get('/attendance/printsection', 'Establishment\AttendanceController@printsection')->name('attendance.printsection');
 
         //INFORMATION
         Route::get('/information', 'Establishment\InformationController@index')->name('information');

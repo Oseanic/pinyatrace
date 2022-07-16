@@ -25,6 +25,7 @@
         <button type="button" class="ex1 btn btn-success mb-3" data-toggle="modal" data-target="#dateModal">Date Range</button>
         <a href="{{ route('attendance.searchnotallowed') }}" class="btn btn-danger btn mb-3" role="button">Not allowed</a>
         <button type="button" class="btn btn-dark btn mb-3" data-toggle="modal" data-target="#roleModal">Role Filter</button>
+        <button type="button" class="btn btn-white btn-outline-primary btn mb-3" data-toggle="modal" data-target="#sectionModal">Section Filter</button>
         <a href="{{ route('attendance') }}" class="btn btn-light btn mb-3" role="button" aria-pressed="true">View all</a>
         <button type="button" class="btn btn-secondary btn mb-3" data-toggle="modal" data-target="#printModal"><i class="cil-print"></i> Print</button>
         </div>
@@ -381,7 +382,11 @@
       <a href="{{ route('attendance.printall') }}" class="btn btn-secondary btn mb-3" role="button" aria-pressed="true" target="_blank"><i class="cil-print"></i> Print All</a>
       </div>  
 
-
+      <div class="border mt-3 mb-3"></div>
+      <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-white btn-outline-primary btn mb-3" data-dismiss="modal" data-toggle="modal" data-target="#printsectionModal">Section Filter</button>
+      </div>
+      
       </div>
     </div>
   </div>
@@ -484,6 +489,60 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </form> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Print Section Filter Modal -->
+<div class="modal fade" id="printsectionModal" tabindex="-1" role="dialog" aria-labelledby="sectionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Section Filter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form action="{{ route('attendance.printsection') }}" target="_blank" medthod = "POST">
+              <p>Input Course (Acronym):</p>
+              <input type="text" class="form-control" id="course" name="course" required>
+              
+              <p class="mt-2">Input Section:</p>
+              <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" required></div> 
+              <div class="d-flex justify-content-center mb-3">
+              <input type="submit" class="btn btn-primary" value="View">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section Filter Modal -->
+<div class="modal fade" id="sectionModal" tabindex="-1" role="dialog" aria-labelledby="sectionModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Section Filter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form action="{{ route('attendance.searchsection') }}" medthod = "POST">
+              <p>Input Course (Acronym):</p>
+              <input type="text" class="form-control" id="course" name="course" required>
+              
+              <p class="mt-2">Input Section:</p>
+              <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" required></div> 
+              <div class="d-flex justify-content-center mb-3">
+              <input type="submit" class="btn btn-primary" value="View">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal">Close</button>
+              </div>
+            </form>
       </div>
     </div>
   </div>
