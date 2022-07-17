@@ -17,16 +17,16 @@
 
         
         <div class="d-flex justify-content-center">
-          <h1 class="mb-4 text-primary">Attendances - </h1><h1 class="mb-4 ml-2 text-black">{{ $dt }}</h1>
+          <h1 class="mb-4 text-primary"> <i class="cil-user mr-2"></i> Attendances - </h1><h1 class="mb-4 ml-2 text-black">{{ $dt }}</h1>
         </div>
         <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-primary btn mb-3" data-toggle="modal" data-target="#presentModal">Present</button>
-        <button type="button" class="btn btn-info btn mb-3" data-toggle="modal" data-target="#filterModal">Date Filter</button>
-        <button type="button" class="ex1 btn btn-success mb-3" data-toggle="modal" data-target="#dateModal">Date Range</button>
-        <a href="{{ route('attendance.searchnotallowed') }}" class="btn btn-danger btn mb-3" role="button">Not allowed</a>
-        <button type="button" class="btn btn-dark btn mb-3" data-toggle="modal" data-target="#roleModal">Role Filter</button>
-        <button type="button" class="btn btn-white btn-outline-primary btn mb-3" data-toggle="modal" data-target="#sectionModal">Section Filter</button>
-        <a href="{{ route('attendance') }}" class="btn btn-light btn mb-3" role="button" aria-pressed="true">View all</a>
+        <button type="button" class="btn btn-primary btn mb-3" data-toggle="modal" data-target="#presentModal"><i class="cil-calendar mr-2"></i> Present</button>
+        <button type="button" class="btn btn-info btn mb-3" data-toggle="modal" data-target="#filterModal"><i class="cil-calendar mr-2"></i> Date Filter</button>
+        <button type="button" class="ex1 btn btn-success mb-3" data-toggle="modal" data-target="#dateModal"><i class="cil-calendar mr-2"></i>Date Range</button>
+        <a href="{{ route('attendance.searchnotallowed') }}" class="btn btn-danger btn mb-3" role="button"><i class="cil-warning mr-2"></i>Not allowed</a>
+        <button type="button" class="btn btn-dark btn mb-3" data-toggle="modal" data-target="#roleModal"><i class="cil-user mr-2"></i> Role Filter</button>
+        <button type="button" class="btn btn-white btn-outline-primary btn mb-3" data-toggle="modal" data-target="#sectionModal"><i class="cil-find-in-page mr-2"></i> Section Filter</button>
+        <a href="{{ route('attendance') }}" class="btn btn-light btn mb-3" role="button" aria-pressed="true"><i class="cil-description mr-2"></i> View all</a>
         <button type="button" class="btn btn-secondary btn mb-3" data-toggle="modal" data-target="#printModal"><i class="cil-print"></i> Print</button>
         </div>
         
@@ -507,10 +507,13 @@
       <div class="modal-body">
             <form action="{{ route('attendance.printsection') }}" target="_blank" medthod = "POST">
               <p>Input Course (Acronym):</p>
-              <input type="text" class="form-control" id="course" name="course" required>
+              <input type="text" style="text-transform:uppercase" class="form-control" id="course" name="course" required>
               
               <p class="mt-2">Input Section:</p>
-              <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" required></div> 
+              <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" required>
+            
+              <p class="mt-2">Input Date:</p>
+              <input type="date" class="form-control" id="date" name="date" required></div> 
               <div class="d-flex justify-content-center mb-3">
               <input type="submit" class="btn btn-primary" value="View">
               <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal">Close</button>
@@ -534,10 +537,13 @@
       <div class="modal-body">
             <form action="{{ route('attendance.searchsection') }}" medthod = "POST">
               <p>Input Course (Acronym):</p>
-              <input type="text" class="form-control" id="course" name="course" required>
+              <input style="text-transform:uppercase" type="text" class="form-control" id="course" name="course" required>
               
               <p class="mt-2">Input Section:</p>
-              <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" required></div> 
+              <input type="text" class="form-control" id="section" name="section" pattern="[1-4]{1}-[1-4]{1}" required>
+            
+              <p class="mt-2">Input Date:</p>
+              <input type="date" class="form-control" id="date" name="date" required></div> 
               <div class="d-flex justify-content-center mb-3">
               <input type="submit" class="btn btn-primary" value="View">
               <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal">Close</button>

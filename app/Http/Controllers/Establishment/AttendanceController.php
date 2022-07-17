@@ -144,9 +144,10 @@ class AttendanceController extends Controller
 
     public function searchsection(Request $request)
     {
-        $dt = $request->course." ".$request->section;
-        $attendances = Attendance::where('section', '=', $dt)->orderBy('date','DESC')->paginate(1000);
-        $show = Attendance::where('section', '=', $dt)->get();
+        $section = $request->course." ".$request->section;
+        $dt = $request->course." ".$request->section." [".Carbon::parse($request->date)->format('M, d Y')."]";
+        $attendances = Attendance::where('section', '=', $section)->where('date', '=', $request->date)->orderBy('date','DESC')->paginate(1000);
+        $show = Attendance::where('section', '=', $section)->get();
 
         return view('pages.establishment.attendance.index', compact('show', 'attendances', 'dt'));
     }
@@ -238,9 +239,10 @@ class AttendanceController extends Controller
 
     public function printsection(Request $request)
     {
-        $dt = $request->course." ".$request->section;
-        $attendances = Attendance::where('section', '=', $dt)->orderBy('date','DESC')->paginate(1000);
-        $show = Attendance::where('section', '=', $dt)->get();
+        $section = $request->course." ".$request->section;
+        $dt = $request->course." ".$request->section." [".Carbon::parse($request->date)->format('M, d Y')."]";
+        $attendances = Attendance::where('section', '=', $section)->where('date', '=', $request->date)->orderBy('date','DESC')->paginate(1000);
+        $show = Attendance::where('section', '=', $section)->get();
 
         $pdf = \App::make('dompdf.wrapper');
         $pdf->loadView('pages.establishment.attendance.pdf', compact('show', 'attendances', 'dt'));

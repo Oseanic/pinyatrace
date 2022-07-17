@@ -19,7 +19,7 @@
     <div class="col d-flex justify-content-center">
        <div class="card" style="width: 28rem;">
        <div class="card-header border-0 d-flex justify-content-center">
-         <strong>Qr Code</strong>
+       <i class="cil-qr-code mr-2"></i> <strong>Qr Code</strong>
          
         </div>
           <div class="card-body">
