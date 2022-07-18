@@ -1,4 +1,9 @@
-<p>run the following commands first</p>
+<p>Do these things before running commands</p>
+<p>copy the .env.example and rename to .env</p>
+<p>Generate a key by running the command php artisan key:generate</p>
+<p>update the composer by running the command composer update</p>
+
+<p>Then run the following commands first</p>
 <p>php artisan migrate</p>
 <p>php artisan db:seed</p>
 
