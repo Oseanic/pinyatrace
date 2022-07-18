@@ -62,7 +62,7 @@ div.alert{
         <a href="{{ route('visitors.searchnotallowed') }}" class="btn btn-danger btn mb-3" role="button"><i class="cil-warning mr-2"></i> Not allowed</a>
         <button type="button" class="btn btn-dark btn mb-3" data-toggle="modal" data-target="#roleModal"><i class="cil-user mr-2"></i> Role Filter</button>
         <a href="{{ route('visitors') }}" class="btn btn-light btn mb-3" role="button" aria-pressed="true"><i class="cil-description mr-2"></i> View all</a>
-        <button type="button" class="btn btn-secondary btn mb-3" data-toggle="modal" data-target="#printModal"><i class="cil-print"></i> Print</button>
+        <button type="button" class="btn btn-secondary btn mb-3" data-toggle="modal" data-target="#printModal"><i class="cil-print mr-2"></i> Print</button>
         </div>
         
         <div class="mt-3 d-flex justify-content-end">

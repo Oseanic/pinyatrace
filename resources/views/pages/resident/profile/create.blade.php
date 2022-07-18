@@ -114,7 +114,7 @@
           <div class="form-row d-flex justify-content-center">
             <div class="col-md-4 mb-3">
                 <label for="role">Course (Acronym only)</label>
-                <input type="text" class="form-control" id="course" name="course" readonly required>
+                <input type="text" style="text-transform:uppercase" class="form-control" id="course" name="course" readonly required>
               </div>
 
               <div class="col-md-4 mb-3">
