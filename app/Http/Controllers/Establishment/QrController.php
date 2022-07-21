@@ -85,9 +85,7 @@ class QrController extends Controller
                     ]);
                 }
         }
-        
-
-        
+               
         if($verify != "Visitor"){         
             if($student == null){
                 Attendance::create([
