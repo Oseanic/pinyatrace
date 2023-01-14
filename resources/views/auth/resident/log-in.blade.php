@@ -57,6 +57,9 @@ div.c-app  {
                     <div class="col-6">
                         <button class="btn btn-primary px-4" type="submit">{{ __('Login') }}</button>
                     </div>
+                    <div class="col">
+                        <a class="d-flex justify-content-end mt-1 d-lg-none" href="{{ route('resident.register') }}">Sign up</a>
+                    </div>
                     </form>
                     <!-- <div class="col-6 text-right">
                         <a href="{{ route('password.request') }}" class="btn btn-link px-0" type="button">{{ __('Forgot Your Password?') }}</a>
