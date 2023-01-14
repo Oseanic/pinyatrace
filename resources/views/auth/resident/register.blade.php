@@ -18,7 +18,7 @@ main.c-app  {
 <div class="container w-100 d-flex align-items-center min-vh-100 p-0">
   <div class="row justify-content-center w-100">
     <div class="col-md-6">
-      <div class="card mx-4">
+      <div class="card border mx-4">
         <div class="card-body p-4">
             <form method="POST" action="{{ route('register') }}">
                 @csrf

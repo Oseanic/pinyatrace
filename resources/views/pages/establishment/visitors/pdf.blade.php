@@ -48,6 +48,7 @@
                     <th>ID Number</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Reason for Visit</th>
                 </tr>
 
                 <tbody>
@@ -57,7 +58,12 @@
                     <td>{{ $visitor->role }}</td>
                     <td>{{ $visitor->id_number }}</td>
                     <td>{{ Carbon\Carbon::parse($visitor->date)->format('M, d Y') }}</td>
-                    <td class="{{ $visitor->in === 'Not allowed' ? 'text-danger' : 'text-black'}}">{{ $visitor->in }}</td>               
+                    <td class="{{ $visitor->in === 'Not allowed' ? 'text-danger' : 'text-black'}}">{{ $visitor->in }}</td>
+                    @if($visitor->reason_visit != null)
+                    <td>{{ $visitor->reason_visit }}</td>
+                    @else
+                    <td>N/A</td>
+                    @endif             
                   </td>
                 </tr>
               @empty

@@ -41,7 +41,7 @@
         @endif    
 
         <div class="mt-3 d-flex justify-content-end">
-                    <input type="text" id="myInput" placeholder="Search..." title="Type in a name" autocomplete="off">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search..." title="Type in a name">
         </div>
 
         <div class="table-responsive">
@@ -73,10 +73,12 @@
                     <td>{{ Carbon\Carbon::parse($attendance->date)->format('M, d Y') }}</td>
                     <td class="{{ $attendance->in === 'Not allowed' ? 'text-danger' : 'text-black'}}">{{ $attendance->in }}</td>
                     <td class="{{ $attendance->out === 'Not allowed' ? 'text-danger' : 'text-black'}}">{{ $attendance->out === null ? 'Still inside' : $attendance->out }}</td>
-                    <td><button class="btn-sm btn-primary detail-btn" data-toggle="modal" data-target="#exampleModal" data-id="{{ $attendance->id }}">View</button>
+                    <td>
+                        <button class="btn-sm btn-primary detail-btn" data-toggle="modal" data-target="#exampleModal" data-id="{{ $attendance->id }}">View</button>
                         @if($attendance->out == null)
                         <a href="{{ route('attendance.kick', [$attendance->id]) }}" class="btn-sm btn-danger btn" role="button" aria-pressed="true">Scan Out</a>
-                        @endif</td>
+                        @endif
+                    </td>
                 </tr>
                 @empty
                 <tr>
@@ -558,15 +560,24 @@
 @section('js')
 
 <script>
-  $(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase(); 
-    
-    $("#table tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
+  function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
 </script>
 
 <script>

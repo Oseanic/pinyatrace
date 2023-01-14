@@ -93,7 +93,7 @@
             <div class="col-md-6 mb-3">
               <label for="role">Role</label>
               <select class="custom-select" id="role" name="role" required>
-              <option selected disabled value="">Choose...</option>
+                <option selected disabled value="">Choose...</option>
                 <option>Visitor</option>
                 <option>Student</option>
                 <option>Professor</option>

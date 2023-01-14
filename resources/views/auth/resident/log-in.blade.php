@@ -20,7 +20,7 @@ div.c-app  {
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="card-group">
-            <div class="card p-4">
+            <div class="card border p-4">
               <div class="card-body">
                 <h1>PinyaTrace Login</h1>
                 <p class="text-muted">Sign In to your account</p>
