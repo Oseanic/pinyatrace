@@ -18,7 +18,7 @@ main.c-app  {
 <div class="container w-100 d-flex align-items-center min-vh-100 p-0">
   <div class="row justify-content-center w-100">
     <div class="col-md-6">
-      <div class="card border mx-4">
+      <div class="card border border-primary mx-4">
         <div class="card-body p-4">
             <form method="POST" action="{{ route('register') }}">
                 @csrf
@@ -37,6 +37,11 @@ main.c-app  {
                     <span class="input-group-text">@</span>
                     </div>
                     <input class="form-control" type="text" placeholder="{{ __('E-Mail Address') }}" name="email" value="{{ old('email') }}" required>
+                    @error('email')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                    @enderror
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -45,6 +50,11 @@ main.c-app  {
                     </span>
                     </div>
                     <input class="form-control" type="password" placeholder="{{ __('Password') }}" name="password" required>
+                    @error('password')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                    @enderror
                 </div>
                 <div class="input-group mb-4">
                     <div class="input-group-prepend">
